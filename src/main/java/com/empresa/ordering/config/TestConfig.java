@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Profile;
 import com.empresa.ordering.entities.User;
 import com.empresa.ordering.repositories.UserRepository;
 
-/*Configuration é a anotation para o spring de que se trata de uma classe de configuracao*/
+/*Configuration é a Notation para o spring de que se trata de uma classe de configuracao*/
 
-/*Anotaton Profile, indica que este arquivo so sera considerando quando for usado o perfil
+/*Notaton Profile, indica que este arquivo so sera considerando quando for usado o perfil
 'test', definido em application.properties*/
 
 @Configuration
