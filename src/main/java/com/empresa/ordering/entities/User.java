@@ -1,18 +1,25 @@
 package com.empresa.ordering.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class User implements Serializable{
-	
+@Table(name = "tb_user")
+public class User implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -20,9 +27,24 @@ public class User implements Serializable{
 	private String email;
 	private String phone;
 	private String password;
-	
+
+	/*
+	 * No diagrama diz que um usuario pode ter varios pedidos, portanto, criei uma
+	 * lista
+	 */
+
+	@JsonIgnore /*
+				 * Para evitar loop na requisicao dos dados quanto aos relacionamentos em banco,
+				 * o JsonIgnore precisa ser adicionado em uma das entidades relacionadas
+				 */
+	@OneToMany(mappedBy = "client") /*
+									 * Indico a relacao um para muitos, e aponto o nome do atributo na outra
+									 * classe(order) que tem esta relacao
+									 */
+	private List<Order> orders = new ArrayList<>();
+
 	public User() {
-		
+
 	}
 
 	public User(Long id, String name, String email, String phone, String password) {
@@ -74,6 +96,10 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
+	public List<Order> getOrders() {
+		return orders;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -91,6 +117,4 @@ public class User implements Serializable{
 		return Objects.equals(id, other.id);
 	}
 
-	
-	
 }

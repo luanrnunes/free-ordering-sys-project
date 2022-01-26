@@ -6,25 +6,25 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.empresa.ordering.entities.User;
-import com.empresa.ordering.repositories.UserRepository;
+import com.empresa.ordering.entities.Order;
+import com.empresa.ordering.repositories.OrderRepository;
 
 /*Anotation Service, registra a classe como um componente spring (especifico Service), permitindo
 por exemplo, utilizar o autowired para esta classe em outra que precise depender dela
 tambem existe anotation Component e Entity, especificos para as respectivas classes criadas*/
 
-@Service 
-public class UserService {
+@Service   /*Indica ao JPA que a classe é um servico*/
+public class OrderService {
 
 	@Autowired /*Autowired injecao de dependencia Spring, quando trago outra classe, indico a dependencia com esta anotation*/
-	private UserRepository repository;
+	private OrderRepository repository;
 	
-	public List<User> findAll() {
+	public List<Order> findAll() {
 		return repository.findAll();
 	}
 	
-	public User findById(Long id) {
-		Optional<User> obj = repository.findById(id);
+	public Order findById(Long id) {
+		Optional<Order> obj = repository.findById(id);
 		return obj.get();
 	}
 	
