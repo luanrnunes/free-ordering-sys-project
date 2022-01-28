@@ -8,9 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.empresa.ordering.entities.Category;
 import com.empresa.ordering.entities.Order;
 import com.empresa.ordering.entities.User;
 import com.empresa.ordering.entities.enums.OrderStatus;
+import com.empresa.ordering.repositories.CategoryRepository;
 import com.empresa.ordering.repositories.OrderRepository;
 import com.empresa.ordering.repositories.UserRepository;
 
@@ -31,6 +33,9 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired
 	private OrderRepository orderRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -38,6 +43,14 @@ public class TestConfig implements CommandLineRunner {
 		 * O que fica dentro do metodo run é o que será executado primeiro quando a
 		 * aplicacao inicializar
 		 */
+		
+		/*Instancia manual de categorias para teste*/
+		
+		Category cat1 = new Category(null, "Electronics");
+		Category cat2 = new Category(null, "Books");
+		Category cat3 = new Category(null, "Computers"); 
+
+		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 
 		/* Instancia manual de usuarios para teste */
 		User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
