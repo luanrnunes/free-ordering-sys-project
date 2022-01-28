@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.empresa.ordering.entities.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -29,6 +30,10 @@ public class Order implements Serializable {
 	@JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT") /*Forca o horario Json no formato que quero definir, neste caso, ISO8601*/
 	private Instant moment;
 	
+	/*OrderStatus foi definido comi integer apenas nesta classe, para explicitar
+	 * o tratamento de inteiro com o banco... O resto ira enviar como um objeto OrderStatus*/
+	private Integer orderStatus;
+	
 	/*No diagrama diz que e um cliente para uma serie de pedidos, bastando uma unica instancia de USER*/
 	
 	@ManyToOne      /*ManyToOne diz ao JPA que para este objeto deve ser gerada chave estrangeira*/
@@ -39,10 +44,13 @@ public class Order implements Serializable {
 		
 	}
 
-	public Order(Long id, Instant moment, User client) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
 		super();
 		this.id = id;
 		this.moment = moment;
+		/*Assim vai apenas setar o Order Status com qualquer valor que receba, me habilitando a fazer os tratamentos com integers, 
+		 * sem esperar receber especificamente um objeto do tipo OrderStatus */
+		setOrderStatus(orderStatus);
 		this.client = client;
 	}
 
@@ -60,6 +68,20 @@ public class Order implements Serializable {
 
 	public void setMoment(Instant moment) {
 		this.moment = moment;
+	}
+	
+	/*Tratamento no get de OrderStatus para converter um inteiro para OrderStatus*/
+	public OrderStatus getOrderStatus() {
+		return OrderStatus.valueOf(orderStatus);
+	}
+
+	/*Tratamento no set de OrderStatus para receber um orderStatus e converter para inteiro*/
+	public void setOrderStatus(OrderStatus orderStatus) {
+		if (orderStatus != null) {
+			
+		}
+		this.orderStatus = orderStatus.getCode();
+		
 	}
 
 	public User getClient() {
