@@ -43,7 +43,7 @@ public class Order implements Serializable {
 	@JoinColumn(name = "client_id")   /*JoinColumn define o nome da chave estrangeira para a tabela em questao que contem o ID do usuario associado ao pedido*/
 	private User client;
 	
-	@OneToMany(mappedBy = "id.order")  /*id.order pq no orderitem eu tenho o id e o id por sua vez é o que tem o pedido, por isso id.order*/
+	@OneToMany(mappedBy = "id.order")  /*id.order pq no orderitem eu tenho o id e o id por sua vez é o que tem o order, por isso id.order*/
 	private Set<OrderItem> items = new HashSet<>();
 	
 	public Order() {
