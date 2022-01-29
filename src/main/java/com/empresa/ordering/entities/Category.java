@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_category")
@@ -23,7 +25,11 @@ public class Category implements Serializable {
 	private Long id;
 	private String name;
 	
-	@Transient
+	@JsonIgnore /*Para nao gerar o problema de loop em requisioes externas que na hora de serializar o Json, fica jogando de uma classe para outra
+	 basta deixar em apenas uma para efetuar o trabalho*/
+	
+	@ManyToMany(mappedBy = "categories") /*mappedBy insiro o nome da colecao que esta na outra classe, que
+	é a product. A colecao se chama categories... 'private Set<Category> categories = new HashSet<>*();*/
 	private Set<Product> products = new HashSet<>();
 	
 	public Category() {

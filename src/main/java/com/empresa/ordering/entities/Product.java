@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name="tb_product")
@@ -34,7 +36,13 @@ public class Product implements Serializable{
 	/*Como o Set é uma interface, ele nao pode ser instanciado, deve ser usada uma classe correspondente
 	 * a esta interface, neste caso HashSet*/
 	
-	@Transient   /*Transient, para ser usado durante testes de base, impede a interpretacao do JPA*/
+	/*Abaixo fiz as associacoes necessarias entre as tabelas, pode ser feito em uma unica classe desde
+	 * que ja se relacionem... inverseJoinColumns define a chave estrangeira da outra entidade, como estou
+	 * na product, a outra entidade de relacao é a categoria, portanto estou definindo o nome da FK para categoria*/
+	
+	@ManyToMany   /*Anotation JPA de relacao muitos pra muitos*/
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), 
+	inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
 	
 	public Product() {

@@ -37,7 +37,7 @@ public class Order implements Serializable {
 	/*No diagrama diz que e um cliente para uma serie de pedidos, bastando uma unica instancia de USER*/
 	
 	@ManyToOne      /*ManyToOne diz ao JPA que para este objeto deve ser gerada chave estrangeira*/
-	@JoinColumn(name = "client_id")   /*JoinColumn define o nome da chave estrangeira no banco*/
+	@JoinColumn(name = "client_id")   /*JoinColumn define o nome da chave estrangeira para a tabela em questao que contem o ID do usuario associado ao pedido*/
 	private User client;
 	
 	public Order() {
