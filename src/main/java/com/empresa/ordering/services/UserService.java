@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.empresa.ordering.entities.User;
 import com.empresa.ordering.repositories.UserRepository;
+import com.empresa.ordering.services.exceptions.DatabaseException;
 import com.empresa.ordering.services.exceptions.ResourceNotFoundException;
 
 /*Anotation Service, registra a classe como um componente spring (especifico Service), permitindo
@@ -36,7 +38,16 @@ public class UserService {
 	}
 	
 	public void delete(Long id) {
+		try {
 		repository.deleteById(id);
+	} catch (EmptyResultDataAccessException e) {
+		throw new ResourceNotFoundException(id);
+		
+	/*Manter um catch de exception mais generica para capturar erros especificos nao tratados no console para tratamento posterior (e.printStackTrace();)*/
+	} catch (RuntimeException e) {
+			throw new DatabaseException(e.getMessage());
+//			e.printStackTrace();
+		}
 	}
 	
 	public User update(Long id, User obj) {
