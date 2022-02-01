@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.empresa.ordering.entities.User;
 import com.empresa.ordering.repositories.UserRepository;
+import com.empresa.ordering.services.exceptions.ResourceNotFoundException;
 
 /*Anotation Service, registra a classe como um componente spring (especifico Service), permitindo
 por exemplo, utilizar o autowired para esta classe em outra que precise depender dela
@@ -23,9 +24,11 @@ public class UserService {
 		return repository.findAll();
 	}
 	
+	/*Optional, vai tentar dar o get, se nao conseguir, vai retornar a exception*/
+	
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public User insert (User obj) {
